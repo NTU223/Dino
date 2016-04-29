@@ -27,3 +27,41 @@ api.getPlayer = function(){
     player[key] = tRex[key];
   return player;
 }
+
+/**
+ * Gets keycode
+ * @param {keycode name}, like 'JUMP', 'DUCK'
+ */
+api.getKeycode = function(type){
+  for (var keycode in Runner.keycodes[type])
+    return keycode;
+}
+
+/**
+ * Jump
+ */
+api.jump = function(){
+  Keyboard.keydown(this.getKeycode('JUMP'));
+}
+
+/**
+ * Duck
+ */
+api.duck = function(){
+  Keyboard.keydown(this.getKeycode('DUCK'));
+}
+
+/**
+ * Start Ducking
+ */
+api.duckStart = function(){
+  this.duckIntervalId = setInterval("api.duck()", 50);
+}
+
+/**
+ * Stop Ducking
+ */
+api.duckStop = function(){
+  clearInterval(this.duckIntervalId);
+  Keyboard.keyup(this.getKeycode('DUCK'));
+}
