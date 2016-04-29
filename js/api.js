@@ -3,10 +3,11 @@ var api = api || {};  //!< @namespace api
 /**
  * Configuration
  */
-api.KEYPRESS_TIME = 20;
+api.fps = 60;
+api.KEYPRESS_TIME = 1000 / api.fps;
 
 /**
- * Gets obstacles information.
+ * Get obstacles information.
  * @return a list of obstacles
  */
 api.getObstacles = function(){
@@ -22,7 +23,7 @@ api.getObstacles = function(){
 }
 
 /**
- * Gets player(tRex) information.
+ * Get player(tRex) information.
  * @return a dict of obstacles
  */
 api.getPlayer = function(){
@@ -34,7 +35,15 @@ api.getPlayer = function(){
 }
 
 /**
- * Gets keycode
+ * Get currentSpeed.
+ * @return a number
+ */
+api.getCurrentSpeed = function(){
+  return runner.currentSpeed;
+}
+
+/**
+ * Get keycode
  * @param {keycode name}, like 'JUMP', 'DUCK'
  */
 api.getKeycode = function(type){
