@@ -43,6 +43,14 @@ api.getCurrentSpeed = function(){
 }
 
 /**
+ * Check if game is paused
+ * @return a boolean
+ */
+api.isPaused = function(){
+  return runner.paused;
+}
+
+/**
  * Get keycode
  * @param {keycode name}, like 'JUMP', 'DUCK'
  */
@@ -69,6 +77,7 @@ api.duck = function(){
  * Start Ducking
  */
 api.duckStart = function(){
+  clearInterval(this.speedDropIntervalId);
   this.duckIntervalId = setInterval("api.duck()", this.KEYPRESS_TIME);
 }
 
@@ -95,5 +104,6 @@ api.speedDropHandler = function(){
  */
 api.speedDrop = function(){
   Keyboard.keydown(this.getKeycode('DUCK'));
+  clearInterval(this.speedDropIntervalId);
   this.speedDropIntervalId = setInterval("api.speedDropHandler()", this.KEYPRESS_TIME);
 }
