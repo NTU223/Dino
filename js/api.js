@@ -1,6 +1,11 @@
 var api = api || {};  //!< @namespace api
 
 /**
+ * Configuration
+ */
+api.KEYPRESS_TIME = 20;
+
+/**
  * Gets obstacles information.
  * @return a list of obstacles
  */
@@ -55,7 +60,7 @@ api.duck = function(){
  * Start Ducking
  */
 api.duckStart = function(){
-  this.duckIntervalId = setInterval("api.duck()", 50);
+  this.duckIntervalId = setInterval("api.duck()", this.KEYPRESS_TIME);
 }
 
 /**
@@ -64,4 +69,22 @@ api.duckStart = function(){
 api.duckStop = function(){
   clearInterval(this.duckIntervalId);
   Keyboard.keyup(this.getKeycode('DUCK'));
+}
+
+/**
+ * Checking if not JUMPING
+ */
+api.speedDropHandler = function(){
+  if (this.getPlayer().status != 'JUMPING'){
+    Keyboard.keyup(this.getKeycode('DUCK'));
+    clearInterval(this.speedDropIntervalId);
+  }
+}
+
+/**
+ * Start Speed Droping
+ */
+api.speedDrop = function(){
+  Keyboard.keydown(this.getKeycode('DUCK'));
+  this.speedDropIntervalId = setInterval("api.speedDropHandler()", this.KEYPRESS_TIME);
 }
