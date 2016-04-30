@@ -37,7 +37,7 @@ Keyboard.keydown = function(k) {
   }
 
   document.dispatchEvent(oEvent);
-}
+};
 
 /**
  * Send keyup event.
@@ -72,4 +72,4 @@ Keyboard.keyup = function(k) {
     }
 
     document.dispatchEvent(oEvent);
-}
+};

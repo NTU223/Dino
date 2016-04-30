@@ -1,16 +1,30 @@
 var ai = ai || {};  //!< @namespace ai
 
-ai.init = function(){
-  setInterval("ai._mainLoop();", 1000 / 120);
-  setInterval("api.keepPlay();", 1000 / 60);
-  ai.speedDroping = false;
-}
+ai.start = function(){
+  this.mainLoopIntervalId = setInterval("ai.mainLoop();", 1000 / 120);
+  this.keepPlayIntervalId = setInterval("api.keepPlay();", 1000 / 60);
+  this.running = true;
+};
 
+ai.stop = function(){
+  clearInterval(this.mainLoopIntervalId);
+  clearInterval(this.keepPlayIntervalId);
+  this.running = false;
+};
 
-ai._mainLoop = function(){
+window.addEventListener('keydown', function(e){
+  if (e.keyCode == 65){
+    if (ai.running)
+      ai.stop();
+    else
+      ai.start();
+  }
+});
+
+ai.mainLoop = function(){
   obs = api.getObstacles();
   if (obs.length != 0){
-    var bound = 280 * (api.getCurrentSpeed() / Runner.config.MAX_SPEED);
+    var bound = 250 * (api.getCurrentSpeed() / Runner.config.MAX_SPEED);
     var player = api.getPlayer();
     if (player.status == 'JUMPING'){
       var prev = -1;
@@ -40,4 +54,4 @@ ai._mainLoop = function(){
       }
     }
   }
-}
+};
