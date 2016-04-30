@@ -3,6 +3,7 @@ var ai = ai || {};  //!< @namespace ai
 ai.init = function(){
   setInterval("ai._mainLoop();", 1000 / 120);
   setInterval("api.keepPlay();", 1000 / 60);
+  ai.speedDroping = false;
 }
 
 
@@ -17,11 +18,13 @@ ai._mainLoop = function(){
       api.jump();
     }
     else if (player.status == 'JUMPING'){
-      if (player.xPos > obs[0].xPos + obs[0].width){
+      if (player.xPos > obs[0].xPos + obs[0].width && !this.speedDroping){
         api.speedDrop();
+        this.speedDroping = true;
       }
     }
     else{
+      this.speedDroping = false;
       api.duck();
     }
   }
