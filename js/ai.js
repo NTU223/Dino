@@ -1,7 +1,8 @@
 var ai = ai || {};  //!< @namespace ai
 
 ai.init = function(){
-  setInterval("ai._mainLoop()", 1000 / 60);
+  setInterval("ai._mainLoop();", 1000 / 120);
+  setInterval("api.keepPlay();", 1000 / 60);
 }
 
 

@@ -107,3 +107,11 @@ api.speedDrop = function(){
   clearInterval(this.speedDropIntervalId);
   this.speedDropIntervalId = setInterval("api.speedDropHandler()", this.KEYPRESS_TIME);
 }
+
+/**
+ * Check if game is paused, then play it
+ */
+api.keepPlay = function(){
+  if (runner.paused)
+    runner.play();
+}
