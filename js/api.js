@@ -5,6 +5,7 @@ var api = api || {};  //!< @namespace api
  */
 api.fps = 60;
 api.KEYPRESS_TIME = 1000 / api.fps;
+api.speedDroping = false;
 
 /**
  * Get obstacles information.
@@ -63,7 +64,8 @@ api.getKeycode = function(type){
  * Jump
  */
 api.jump = function(){
-  Keyboard.keydown(this.getKeycode('JUMP'));
+  if (this.getPlayer().status != 'JUMPING')
+    Keyboard.keydown(this.getKeycode('JUMP'));
 }
 
 /**
@@ -96,6 +98,7 @@ api.speedDropHandler = function(){
   if (this.getPlayer().status != 'JUMPING'){
     Keyboard.keyup(this.getKeycode('DUCK'));
     clearInterval(this.speedDropIntervalId);
+    this.speedDroping = false;
   }
 }
 
@@ -103,8 +106,10 @@ api.speedDropHandler = function(){
  * Start Speed Droping
  */
 api.speedDrop = function(){
+  if (this.speedDroping)
+    return;
+  this.speedDroping = true;
   Keyboard.keydown(this.getKeycode('DUCK'));
-  clearInterval(this.speedDropIntervalId);
   this.speedDropIntervalId = setInterval("api.speedDropHandler()", this.KEYPRESS_TIME);
 }
 

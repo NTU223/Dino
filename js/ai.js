@@ -10,26 +10,34 @@ ai.init = function(){
 ai._mainLoop = function(){
   obs = api.getObstacles();
   if (obs.length != 0){
-    var bound = 350 * (api.getCurrentSpeed() / Runner.config.MAX_SPEED);
-    var distance = (obs[0].xPos + obs[0].width) - api.getPlayer().xPos;
-    var next = 0;
-    if (distance < 0)
-      next = 1;
-    distance = (obs[next].xPos + obs[next].width) - api.getPlayer().xPos;
+    var bound = 280 * (api.getCurrentSpeed() / Runner.config.MAX_SPEED);
     var player = api.getPlayer();
-    if (0 < distance && distance < bound && obs[next].yPos != 50 && obs[next].yPos != 75 && player.status != 'JUMPING'){
-      api.duckStop();
-      api.jump();
-    }
-    else if (player.status == 'JUMPING'){
-      if (player.xPos > obs[0].xPos + obs[0].width / 2 && !this.speedDroping){
+    if (player.status == 'JUMPING'){
+      var prev = -1;
+      for (var i = 0; i < obs.length; i++)
+        if (obs[i].xPos < player.xPos)
+          prev = i;
+      if (prev == -1)
+        return;
+      if (player.xPos > obs[prev].xPos + obs[prev].width / 2){
         api.speedDrop();
-        this.speedDroping = true;
       }
     }
-    else{
-      this.speedDroping = false;
-      api.duck();
+    else if (player.status == 'RUNNING' || player.status == 'DUCKING'){
+      var next = -1;
+      for (var i = obs.length - 1; i >= 0; i--)
+        if (obs[i].xPos > player.xPos)
+          next = i;
+      if (next == -1)
+        return;
+      var distance = obs[next].xPos - player.xPos;
+      if (distance < bound && obs[next].yPos != 50 && obs[next].yPos != 75){
+        api.duckStop();
+        api.jump();
+      }
+      else{
+        api.duck();
+      }
     }
   }
 }
