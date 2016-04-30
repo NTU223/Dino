@@ -629,7 +629,9 @@ Runner.prototype = {
         if (!this.activated) {
           this.loadSounds();
           this.activated = true;
-          errorPageController.trackEasterEgg();
+          if (window.errorPageController) {
+            errorPageController.trackEasterEgg();
+          }
         }
 
         if (!this.tRex.jumping && !this.tRex.ducking) {
