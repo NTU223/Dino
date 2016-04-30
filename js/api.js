@@ -21,7 +21,7 @@ api.getObstacles = function(){
     obs.push(ob);
   }
   return obs;
-}
+};
 
 /**
  * Get player(tRex) information.
@@ -33,7 +33,7 @@ api.getPlayer = function(){
   for (var key in tRex)
     player[key] = tRex[key];
   return player;
-}
+};
 
 /**
  * Get currentSpeed.
@@ -41,7 +41,7 @@ api.getPlayer = function(){
  */
 api.getCurrentSpeed = function(){
   return runner.currentSpeed;
-}
+};
 
 /**
  * Check if game is paused
@@ -49,7 +49,7 @@ api.getCurrentSpeed = function(){
  */
 api.isPaused = function(){
   return runner.paused;
-}
+};
 
 /**
  * Get keycode
@@ -58,7 +58,7 @@ api.isPaused = function(){
 api.getKeycode = function(type){
   for (var keycode in Runner.keycodes[type])
     return keycode;
-}
+};
 
 /**
  * Jump
@@ -66,14 +66,14 @@ api.getKeycode = function(type){
 api.jump = function(){
   if (this.getPlayer().status != 'JUMPING')
     Keyboard.keydown(this.getKeycode('JUMP'));
-}
+};
 
 /**
  * Duck
  */
 api.duck = function(){
   Keyboard.keydown(this.getKeycode('DUCK'));
-}
+};
 
 /**
  * Start Ducking
@@ -81,7 +81,7 @@ api.duck = function(){
 api.duckStart = function(){
   clearInterval(this.speedDropIntervalId);
   this.duckIntervalId = setInterval("api.duck()", this.KEYPRESS_TIME);
-}
+};
 
 /**
  * Stop Ducking
@@ -89,7 +89,7 @@ api.duckStart = function(){
 api.duckStop = function(){
   clearInterval(this.duckIntervalId);
   Keyboard.keyup(this.getKeycode('DUCK'));
-}
+};
 
 /**
  * Checking if not JUMPING
@@ -100,7 +100,7 @@ api.speedDropHandler = function(){
     clearInterval(this.speedDropIntervalId);
     this.speedDroping = false;
   }
-}
+};
 
 /**
  * Start Speed Droping
@@ -111,7 +111,7 @@ api.speedDrop = function(){
   this.speedDroping = true;
   Keyboard.keydown(this.getKeycode('DUCK'));
   this.speedDropIntervalId = setInterval("api.speedDropHandler()", this.KEYPRESS_TIME);
-}
+};
 
 /**
  * Check if game is paused, then play it
@@ -119,4 +119,4 @@ api.speedDrop = function(){
 api.keepPlay = function(){
   if (runner.paused)
     runner.play();
-}
+};
