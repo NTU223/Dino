@@ -24,7 +24,9 @@ window.addEventListener('keydown', function(e){
 ai.mainLoop = function(){
   obs = api.getObstacles();
   if (obs.length != 0){
-    var bound = 250 * (api.getCurrentSpeed() / Runner.config.MAX_SPEED);
+    var bound = 250 * (api.getCurrentSpeed() / 13);
+    if (api.getCurrentSpeed() >= 11)
+      bound = 280 * (api.getCurrentSpeed() / 13);
     var player = api.getPlayer();
     if (player.status == 'JUMPING'){
       var prev = -1;
